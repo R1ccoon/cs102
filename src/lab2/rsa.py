@@ -46,10 +46,19 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    for x in range(1, phi):
-        if (e * x) % phi == 1:
-            return x
-    return -1
+    a = phi
+    b = e
+    m = []
+    while a % b != 0:
+        m.append(a // b)
+        c = a % b
+        a, b = b, c
+    m = m[::-1]
+    x = 0
+    y = 1
+    for i in m:
+        x, y = y, x - y * i
+    return y % phi
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:

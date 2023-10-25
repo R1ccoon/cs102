@@ -12,14 +12,20 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     ciphertext = ""
     alphabet = "abcdefghijklmnopqrstuvwxyz"
-    alphabet_big = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for i in plaintext:
-        if i in alphabet:
-            ciphertext += alphabet[(alphabet.find(i) + shift) % len(alphabet)]
-        elif i in alphabet_big:
-            ciphertext += alphabet_big[(alphabet_big.find(i) + shift) % len(alphabet_big)]
-        else:
-            ciphertext += i
+        if i.lower() in alphabet:
+            if i.islower():
+                if ord(i) + shift > 122:  # кодировка последней строчной буквы в латинице
+                    ciphertext += chr(ord(i) + shift - 26)
+                else:
+                    ciphertext += chr(ord(i) + shift)
+
+            elif i.isupper():
+                if ord(i) + shift > 90:  # кодировка последней заглавной буквы в латинице
+                    ciphertext += chr(ord(i) + shift - 26)
+                else:
+                    ciphertext += chr(ord(i) + shift)
+
     return ciphertext
 
 
@@ -37,12 +43,18 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
     plaintext = ""
     alphabet = "abcdefghijklmnopqrstuvwxyz"
-    alphabet_big = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for i in ciphertext:
-        if i in alphabet:
-            plaintext += alphabet[(alphabet.find(i) - shift)]
-        elif i in alphabet_big:
-            plaintext += alphabet_big[(alphabet_big.find(i) - shift)]
-        else:
-            plaintext += i
+        if i.lower() in alphabet:
+            if i.islower():
+                if ord(i) - shift < 97:  # кодировка последней строчной буквы в латинице
+                    plaintext += chr(ord(i) - shift + 26)
+                else:
+                    plaintext += chr(ord(i) - shift)
+
+            elif i.isupper():
+                if ord(i) - shift < 65:  # кодировка последней заглавной буквы в латинице
+                    plaintext += chr(ord(i) - shift + 26)
+                else:
+                    plaintext += chr(ord(i) - shift)
     return plaintext
+

@@ -11,6 +11,7 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
+
     alphabet = "abcdefghijklmnopqrstuvwxyz"
     for i in plaintext:
         if i.lower() in alphabet:

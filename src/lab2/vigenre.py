@@ -9,14 +9,23 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+
     for i in range(len(plaintext)):
         shift = ord(keyword[i % len(keyword)].lower()) - 97
-        if ord(plaintext.lower()[i]) + shift > 122:
-            ciphertext += chr(ord(plaintext.lower()[i]) + shift - 26)
+        if plaintext[i].lower() in alphabet:
+            if plaintext[i].islower():
+                if ord(plaintext[i]) + shift > 122:
+                    ciphertext += chr(ord(plaintext[i]) + shift - 26)
+                else:
+                    ciphertext += chr(ord(plaintext[i]) + shift)
+            elif plaintext[i].isupper():
+                if ord(plaintext[i]) + shift > 90:  # кодировка последней заглавной буквы в латинице
+                    ciphertext += chr(ord(plaintext[i]) + shift - 26)
+                else:
+                    ciphertext += chr(ord(plaintext[i]) + shift)
         else:
-            ciphertext += chr(ord(plaintext.lower()[i]) + shift)
-    if plaintext[0].isupper():
-        ciphertext = ciphertext.upper()
+            ciphertext += plaintext[i]
     return ciphertext
 
 
@@ -31,14 +40,21 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
     for i in range(len(ciphertext)):
         shift = ord(keyword[i % len(keyword)].lower()) - 97
-        if ord(ciphertext.lower()[i]) - shift < 97:
-            plaintext += chr(ord(ciphertext.lower()[i]) - shift + 26)
+        if ciphertext[i].lower() in alphabet:
+            if ciphertext[i].islower():
+                if ord(ciphertext[i]) - shift < 97:
+                    plaintext += chr(ord(ciphertext[i]) - shift + 26)
+                else:
+                    plaintext += chr(ord(ciphertext[i]) - shift)
+            elif ciphertext[i].isupper():
+                if ord(ciphertext[i]) - shift < 65:  # кодировка последней заглавной буквы в латинице
+                    plaintext += chr(ord(ciphertext[i]) - shift + 26)
+                else:
+                    plaintext += chr(ord(ciphertext[i]) - shift)
         else:
-            plaintext += chr(ord(ciphertext.lower()[i]) - shift)
-    if ciphertext[0].isupper():
-        plaintext = plaintext.upper()
-
+            plaintext += ciphertext[i]
     return plaintext
 

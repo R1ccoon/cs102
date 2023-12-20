@@ -42,7 +42,8 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    return [[values.pop(0) for i in range(n)] for i in range(len(values)//n)]
+    return [[values.pop(0) for _ in range(n)] for _ in range(len(values) // n)]
+
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения для номера строки, указанной в pos
@@ -81,8 +82,11 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    three_quadrant = [grid[index] for index in range(3)] if pos[0] < 3 else [grid[index] for index in range(3, 6)] if pos[0]< 6 else [grid[index] for index in range(6, 9)]
-    res = [col[:3] for col in three_quadrant] if pos[1] < 3 else [col[3:6] for col in three_quadrant] if pos[1] < 6 else [col[6:] for col in three_quadrant]
+    three_quadrant = [grid[index] for index in range(3)] if pos[0] < 3 else [grid[index] for index in range(3, 6)] if \
+    pos[0] < 6 else [grid[index] for index in range(6, 9)]
+    res = [col[:3] for col in three_quadrant] if pos[1] < 3 else [col[3:6] for col in three_quadrant] if pos[
+                                                                                                             1] < 6 else [
+        col[6:] for col in three_quadrant]
     return [*res[0], *res[1], *res[2]]
 
 
@@ -117,7 +121,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     row_numbers = {elem for elem in get_row(grid, (pos[0], 0)) if elem != '.'}
     col_numbers = {elem for elem in get_col(grid, (0, pos[1])) if elem != '.'}
     block_numbers = {elem for elem in get_block(grid, pos) if elem != '.'}
-    occupied_numbers= {*row_numbers, *col_numbers, *block_numbers}
+    occupied_numbers = {*row_numbers, *col_numbers, *block_numbers}
     res = {'1', '2', '3', '4', '5', '6', '7', '8', '9'} - occupied_numbers
     return set(sorted(res))
 
@@ -150,7 +154,9 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     # TODO: Add doctests with bad puzzles
     for row in range(len(solution)):
         for col in range(len(solution[row])):
-            if (get_col(solution, (row, col)).count(solution[row][col]) == 1) and (get_row(solution, (row, col)).count(solution[row][col]) == 1) and (get_block(solution, (row, col)).count(solution[row][col]) == 1) and (solution[row][col] != '.'):
+            if (get_col(solution, (row, col)).count(solution[row][col]) == 1) and (
+                    get_row(solution, (row, col)).count(solution[row][col]) == 1) and (
+                    get_block(solution, (row, col)).count(solution[row][col]) == 1) and (solution[row][col] != '.'):
                 pass
             else:
                 return False
@@ -178,7 +184,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    #generate empty sudoku place
+    # generate empty sudoku place
     sudoku = [['.' for i in range(9)] for i in range(9)]
     # receiving the random positions in sukodu place for possibility make random sudoku in next step(generate
     # solution sudoku)
@@ -190,10 +196,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     list_pos = [(x, y) for x in range(0, 9) for y in range(0, 9)]
     count = 80
     # filling dots in random places
-    for i in range(81-N):
+    for i in range(81 - N):
         pos_number = randint(0, count)
         sudoku[list_pos[pos_number][0]][list_pos.pop(pos_number)[1]] = '.'
-        count -=1
+        count -= 1
 
     return sudoku
 

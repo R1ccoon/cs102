@@ -1,7 +1,6 @@
 import unittest
+
 from src.lab3 import sudoku
-
-
 class SudokuTestCase(unittest.TestCase):
     def test_group(self):
         values = [1, 2, 3, 4]
@@ -218,6 +217,14 @@ class SudokuTestCase(unittest.TestCase):
     def test_generate_sudoku(self):
         grid = sudoku.generate_sudoku(40)
         expected_unknown = 41
+        actual_unknown = sum(1 for row in grid for e in row if e == ".")
+        self.assertEqual(expected_unknown, actual_unknown)
+        solution = sudoku.solve(grid)
+        solved = sudoku.check_solution(solution)
+        self.assertTrue(solved)
+
+        grid = sudoku.generate_sudoku(1000)
+        expected_unknown = 0
         actual_unknown = sum(1 for row in grid for e in row if e == ".")
         self.assertEqual(expected_unknown, actual_unknown)
         solution = sudoku.solve(grid)

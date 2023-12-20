@@ -6,7 +6,7 @@ from src.lab4.task1 import MovieRecommendationSystem
 class TestCinema(unittest.TestCase):
 
     def setUp(self):
-        self.recSystem = MovieRecommendationSystem('../../src/lab4/task1/movies.txt', '../../src/lab4/task1/history.txt')
+        self.recSystem = MovieRecommendationSystem('../../src/lab4/movies.txt', '../../src/lab4/history.txt')
 
     def test_get_views(self):
         self.assertEqual(self.recSystem.get_views({'3'}), {'3': 4})

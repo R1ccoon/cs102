@@ -50,7 +50,7 @@ class MovieRecommendationSystem:
 
 if __name__ == "__main__":
     movie_file_path = "movies.txt"
-    history_file_path = "history.txt"
+    history_file_path = "histor.txt"
     user_views = input("Enter the list of views: ").split(',')
     recommendation_system = MovieRecommendationSystem(movie_file_path, history_file_path)
     recommendation = recommendation_system.get_recommendations(user_views)
